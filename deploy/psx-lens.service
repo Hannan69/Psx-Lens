@@ -1,0 +1,26 @@
+[Unit]
+Description=PSX Lens research dashboard and pyPSX updater
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=psxlens
+Group=psxlens
+WorkingDirectory=/opt/psx-lens
+EnvironmentFile=/etc/psx-lens/pypsx.env
+Environment=PSX_DB=/var/lib/psx-lens/workspace.sqlite3
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/usr/bin/python3 /opt/psx-lens/server.py --port 8766
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=30
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/psx-lens
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target
